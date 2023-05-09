@@ -27,20 +27,30 @@ error_reporting(0 );
 
             <?php
 
-            $sql_get = mysqli_query($conn,"SELECT * FROM comments WHERE comment_status=1");
-            $count = mysqli_num_rows($sql_get);
+            //$sql_get = mysqli_query($conn,"SELECT * FROM comments WHERE is_read=0");
+            //$count = mysqli_num_rows($sql_get);
+
+            $sql = "SELECT COUNT(*) AS count FROM comments WHERE is_read = '0'";
+
+// Execute query
+$result = mysqli_query($conn, $sql);
+$count = mysqli_fetch_assoc($result)['count'];
+
+// Return count as JSON response
+//echo json_encode(['count' => $count]);
             ?>
 
             
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-  
+                   <div id="bell-icon">
+                     <span id="notification-count">
                    <a class="nav-link" id="navbarDropdown" href="bell-alerts.php" role="button"  aria-expanded="false"><i class="fas fa-bell"></i><span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger"><?php echo $count; ?></span></a>
                          
                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                     <?php
-                     $sql_get1 = mysqli_query($conn,"SELECT * FROM comments WHERE comment_status=1");
-                     if(mysqli_num_rows($sql_get1)>1)
+                    <!-- <?php
+                     $sql_get1 = mysqli_query($conn,"SELECT * FROM comments WHERE is_read=0");
+                     if(mysqli_num_rows($sql_get1)>0)
                      {
                        while($result = mysqli_fetch_assoc($sql_get1))
                         {
@@ -53,8 +63,12 @@ error_reporting(0 );
                         echo '<a class="dropdown-item text-danger font-weight-bold" href="#">Sorry! No Messages</a>';
                      }
 
-                    ?>
-                    
+                    ?>-->
+
+
+                  </div>
+                </span>
+                    </div>
                 </li>
             </ul>
 
