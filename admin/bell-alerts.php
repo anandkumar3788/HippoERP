@@ -92,7 +92,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $style= $row['is_read'] ? '' : 'font-weight:bold;';
     
     echo '<div class="accordion-item">';
-    echo '<div class="accordion-header '.$header_class.'" data-id="'.$row['id'].'"style="' . $style . '">';
+    echo '<div class="accordion-header '.$header_class.'" id="row_'.$row['id'].'" data-id="'.$row['id'].'" style="' . $style . '">';
  // Add angle-down icon for unread notifications
 echo '<i class="fas '.$icon_class.'"></i>';
 
@@ -119,6 +119,7 @@ mysqli_close($conn);
 ?>
 
   <script>
+
     $(document).ready(function() {
       // Handle accordion click events
       $('.accordion-header').click(function() {
@@ -138,6 +139,12 @@ mysqli_close($conn);
           success: function(response) {
             // Update the count in the bell alert
             $('#notification-count').text(response);
+      
+            console.log(id);
+            console.log(response);
+            $('#row_'+id).css("font-weight", "normal");
+
+
           }
         });
       });
